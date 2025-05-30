@@ -4,7 +4,7 @@
  *  Extend the basic example and use direct register configuration based on the datasheet.
  */
 
- #include <Arduino.h>
+#include <Arduino.h>
 
 const int triggerPin = 9;
 const int echoPin = 8;

@@ -4,7 +4,7 @@
  *  Extend the basic example and use direct register configuration based on the datasheet.
  */
 
- #include <Arduino.h>
+#include <Arduino.h>
 
 #define TRIGGER_PIN_DDR   DDRB
 #define TRIGGER_PIN_PORT  PORTB
@@ -13,6 +13,8 @@
 #define ECHO_PIN_DDR      DDRB
 #define ECHO_PIN_PORT     PORTB
 #define ECHO_PIN          PB0   // ICP1 - Input Catpure Unit
+
+void activate_trigger();
 
 const int echoPin = 8;
 
@@ -35,17 +37,8 @@ void loop() {
   float duration, distance;
 
   // send 40kHz burst signal
-  // set trigger to low
-  TRIGGER_PIN_PORT &= ~(1 << TRIGGER_PIN);
-  delayMicroseconds(2);
-  
-  // set trigger to high
-  TRIGGER_PIN_PORT |= (1 << TRIGGER_PIN);
-  delayMicroseconds(10);
-  
-  // set trigger back to low
-  TRIGGER_PIN_PORT &= ~(1 << TRIGGER_PIN);
-  
+  activate_trigger();
+
   // configure Timer1 for rising edge of puls
   TCCR1B |= (1 << ICES1);       // Input Capture Edge Selection - Rising Edge
   TCCR1B |= (1 << CS11);        // Start Timer1 with prescaler = 8 (CHECK IF REALLY NEEDED!!)
@@ -71,4 +64,18 @@ void loop() {
   Serial.print("Distance: ");
   Serial.println(distance);
   delay(100);
+}
+
+void activate_trigger() {
+    // set trigger to low
+    TRIGGER_PIN_PORT &= ~(1 << TRIGGER_PIN);
+    delayMicroseconds(2);
+    
+    // set trigger to high
+    TRIGGER_PIN_PORT |= (1 << TRIGGER_PIN);
+    delayMicroseconds(10);
+    
+    // set trigger back to low
+    TRIGGER_PIN_PORT &= ~(1 << TRIGGER_PIN);
+    
 }

@@ -4,7 +4,7 @@
  *  Extend the basic example and use direct register configuration based on the datasheet.
  */
 
- #include <Arduino.h>
+#include <Arduino.h>
 
 #define TRIGGER_PIN_DDR   DDRB
 #define TRIGGER_PIN_PORT  PORTB
